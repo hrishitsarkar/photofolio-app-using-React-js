@@ -3,10 +3,11 @@ import image from './image.png'
 import AlbumForm from '../AlbumForm/AlbumForm'
 import { useEffect } from 'react';
 import {toast} from 'react-toastify';
+import cross from './cross.png'
 
 import Spinner from 'react-spinner-material';
 function AlbumList(props){
-    const {addAlbumToggler,toggleAdd,addAlbum,albums,loading,insideAlbum,setLoading,getData} = props;
+    const {addAlbumToggler,toggleAdd,addAlbum,albums,loading,insideAlbum,setLoading,getData,deleteAlbum} = props;
     useEffect(()=>{
         setLoading(true);
         setTimeout(()=>{
@@ -30,15 +31,21 @@ return (
     {loading ? <div className='w-full h-[400px] flex items-center justify-center'><Spinner radius={120} color={"#333"} stroke={2} visible={true} /></div> : <div className="w-[80%]  border-8 flex flex-wrap justify-around p-5">
     
     {albums.map((album,i) => {
-        return (
-            <div key={i} className=" shadow-2xl m-5 w-[150px] h-[150px] border-4 flex items-center justify-center flex-col hover:bg-lime-200 hover:border-slate-900 hover:scale-125 "
+        return (<div className='flex flex-col relative'>
+            <img 
+                src={cross}
+                className='w-[10px] h-[10px] text-right top-0 absolute right-0 hover:scale-[1.5]'
+                onClick={() => deleteAlbum(album)}
+            />
+            <div key={i} className=" shadow-2xl m-5 w-[150px] h-[150px] border-4 flex items-center justify-center flex-col hover:bg-lime-200 hover:border-slate-900 hover:scale-[1.1] "
             onClick={()=> insideAlbum(album)}>
+            
     <img src={image}
         className='w-[100px]'
     />
     <h1 className='font-bold'>{album.name}</h1>
     </div>
-
+    </div>
     )
     })}
     

@@ -6,7 +6,7 @@ import ImageList from './components/ImageList/ImageList';
 import { useState,useEffect } from 'react';
 import {db} from './firebaseInIt';
 import { ToastContainer, toast } from 'react-toastify';
-import { collection, addDoc,onSnapshot,doc, getDocs } from "firebase/firestore"; 
+import { collection, addDoc,onSnapshot,doc, getDocs,deleteDoc } from "firebase/firestore"; 
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [toggleAdd,setToggleAdd] = useState(false);
@@ -43,6 +43,10 @@ function App() {
       setImages(images);
       
   })
+}
+const deleteAlbum = async (album) => {
+  await deleteDoc(doc(db, "albums", album.id));
+  toast.success("Album deleted successfully")
 }
   const addAlbumToggler = () => {
     setToggleAdd(!toggleAdd);
@@ -85,7 +89,7 @@ function App() {
     <Nav />
     <ToastContainer />
     
-    {toggleComponent ? <ImageList loading={loading} getImages={getImages} setLoading={setLoading} images={images} addImageToDB={addImageToDB} album = {album} outsideAlbum={outsideAlbum} imageToggler={addImageToggler} addImgHandler={addImgHandler} /> : <AlbumList insideAlbum={insideAlbum} loading={loading} albums={albums} addAlbumToggler={addAlbumToggler} addAlbum={addAlbum} toggleAdd={toggleAdd} setLoading={setLoading} getData={getData} /> }
+    {toggleComponent ? <ImageList loading={loading} getImages={getImages} setLoading={setLoading} images={images} addImageToDB={addImageToDB} album = {album} outsideAlbum={outsideAlbum} imageToggler={addImageToggler} addImgHandler={addImgHandler} /> : <AlbumList insideAlbum={insideAlbum} loading={loading} albums={albums} addAlbumToggler={addAlbumToggler} addAlbum={addAlbum} deleteAlbum={deleteAlbum} toggleAdd={toggleAdd} setLoading={setLoading} getData={getData} /> }
     
     </>
   );
