@@ -6,7 +6,7 @@ import ImageList from './components/ImageList/ImageList';
 import { useState,useEffect } from 'react';
 import {db} from './firebaseInIt';
 import { ToastContainer, toast } from 'react-toastify';
-import { collection, addDoc,onSnapshot,doc, getDocs,deleteDoc } from "firebase/firestore"; 
+import { collection, addDoc,onSnapshot,doc, getDocs,deleteDoc,updateDoc,where,query, setDoc } from "firebase/firestore"; 
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [toggleAdd,setToggleAdd] = useState(false);
@@ -16,8 +16,17 @@ function App() {
   const [toggleComponent,setToggleComponent] = useState(false);
   const [album,setAlbum] = useState();
   const [addImageToggler,setAddImageToggler] = useState(false);
+ 
   
-  
+  const updateImg = async (image) => {
+    
+    const docRef = doc(db,image.albumName,image.id);
+
+    await updateDoc(docRef,image);
+    toast.success("Image updated successfully");
+
+     
+  }
   const getData = async () => {
     const unsub = onSnapshot(collection(db, "albums"), (snapshot) => {
       const albums = snapshot.docs.map((doc)=>{
@@ -45,8 +54,11 @@ function App() {
   })
 }
 const deleteAlbum = async (album) => {
+  
   await deleteDoc(doc(db, "albums", album.id));
+  
   toast.success("Album deleted successfully")
+  
 }
   const addAlbumToggler = () => {
     setToggleAdd(!toggleAdd);
@@ -68,6 +80,7 @@ const deleteAlbum = async (album) => {
    } 
   }
   const insideAlbum = (album) => {
+    
     setToggleComponent(true);
     setAlbum(album);
     
@@ -76,20 +89,24 @@ const deleteAlbum = async (album) => {
     setToggleComponent(false);
   }
   const addImgHandler = () => {
+    
     setAddImageToggler(!addImageToggler);
   }
 
   const addImageToDB = async (image) => {
     const docRef = await addDoc(collection(db, album.name), image);
+    image = {id : docRef.id , ...image}
+    console.log(image);
     toast.success("Image added successfully");
   }
+  
   
   return (
     <>
     <Nav />
     <ToastContainer />
     
-    {toggleComponent ? <ImageList loading={loading} getImages={getImages} setLoading={setLoading} images={images} addImageToDB={addImageToDB} album = {album} outsideAlbum={outsideAlbum} imageToggler={addImageToggler} addImgHandler={addImgHandler} /> : <AlbumList insideAlbum={insideAlbum} loading={loading} albums={albums} addAlbumToggler={addAlbumToggler} addAlbum={addAlbum} deleteAlbum={deleteAlbum} toggleAdd={toggleAdd} setLoading={setLoading} getData={getData} /> }
+    {toggleComponent ? <ImageList updateImg={updateImg} loading={loading} getImages={getImages} setLoading={setLoading} images={images} addImageToDB={addImageToDB} album = {album} outsideAlbum={outsideAlbum} imageToggler={addImageToggler} addImgHandler={addImgHandler} /> : <AlbumList insideAlbum={insideAlbum} loading={loading} albums={albums} addAlbumToggler={addAlbumToggler} addAlbum={addAlbum} deleteAlbum={deleteAlbum} toggleAdd={toggleAdd} setLoading={setLoading} getData={getData} /> }
     
     </>
   );

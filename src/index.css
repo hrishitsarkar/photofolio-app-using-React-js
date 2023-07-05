@@ -15,4 +15,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#album-container:hover #cross-img{
+  opacity: 1;
+}
+#img-container:hover .icons{
+  opacity: 1;
+}
 
