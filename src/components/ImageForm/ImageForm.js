@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 
 const ImageForm = (props) => {
-    const { album , addImageToDB,setUpdate,updateImg,update} = props;
+    const {imageToggler, album , addImageToDB,setUpdate,updateImg,update,setAddImageToggler} = props;
     const albumName = album.name;
     const titleRef = useRef();
     const urlRef = useRef();
@@ -19,6 +19,7 @@ const ImageForm = (props) => {
 }
 
 const addImage = async () => {
+    
     if(!update){
         const image = {
             albumName : albumName,
@@ -35,7 +36,7 @@ const addImage = async () => {
     title : titleRef.current.value,
     url : urlRef.current.value
    }
-
+   
    updateImg(image);
    setUpdate(null);
    

@@ -6,8 +6,9 @@ import { toast } from 'react-toastify';
 import cross from './cross.png'
 
 import Spinner from 'react-spinner-material';
+import ImageList from '../ImageList/ImageList';
 function AlbumList(props) {
-    const { addAlbumToggler, toggleAdd, addAlbum, albums, loading, insideAlbum, setLoading, getData, deleteAlbum } = props;
+    const {carousel,showCarousel,carouselToggler,setCarouselToggler,searchToggler,setSearchToggler,search,showSearch,toggleComponent,update,setUpdate,setAddImageToggler,searchResults,setSearchResults,deleteImg,updateImg,getImages,images,addImageToDB,album,outsideAlbum,addImgHandler, addImageToggler, addAlbumToggler, toggleAdd, addAlbum, albums, loading, insideAlbum, setLoading, getData, deleteAlbum } = props;
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
@@ -19,8 +20,9 @@ function AlbumList(props) {
     }, [])
 
     return (
-        <>
-            <section className="w-full h-fit flex items-center justify-center flex-col">
+        <>  
+        {toggleComponent ? <ImageList carousel={carousel} showCarousel={showCarousel} carouselToggler={carouselToggler} setCarouselToggler={setCarouselToggler} searchToggler={searchToggler} setSearchToggler={setSearchToggler} search={search} showSearch={showSearch} update={update} setUpdate={setUpdate}  setAddImageToggler={setAddImageToggler} searchResults={searchResults} setSearchResults={setSearchResults} deleteImg={deleteImg} updateImg={updateImg} loading={loading} getImages={getImages} setLoading={setLoading} images={images} addImageToDB={addImageToDB} album = {album} outsideAlbum={outsideAlbum} addImageToggler={addImageToggler} addImgHandler={addImgHandler} /> : 
+        <section className="w-full h-fit flex items-center justify-center flex-col">
 
                 <h1 className='text-left mt-[30px] font-bold text-[3rem] cursor-pointer hover:tracking-[10px] ' >Your Albums</h1>
                 {toggleAdd ? <AlbumForm addAlbum={addAlbum} /> : undefined}
@@ -57,6 +59,9 @@ function AlbumList(props) {
                 }
 
             </section>
+        }
+        
+            
         </>
     )
 }
