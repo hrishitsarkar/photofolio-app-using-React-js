@@ -16,12 +16,12 @@ const Carousel = (props) => {
                                 className='h-[100px] w-[100px] hover:bg-slate-200 p-5'
                                 onClick={prev}
                             />
-
+                            
                             <img
                                 src={c.url}
                                 className={styles.carousel}
                             />
-
+                            
                             <img src={right}
                                 className='h-[100px] w-[100px] hover:bg-slate-200 p-5'
                                 onClick={next}
