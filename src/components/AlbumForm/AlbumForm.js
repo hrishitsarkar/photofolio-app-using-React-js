@@ -5,6 +5,10 @@ function AlbumForm(props) {
     const {addAlbum} = props;
     const inputAlbumRef = useRef();
     const submitHandler = () => {
+        if(inputAlbumRef.current.value === ""){
+            toast.error("Please fill out this field");
+            return;
+        }
         const album = {
             name : inputAlbumRef.current.value
         }
