@@ -107,7 +107,7 @@ function App() {
 
 
       })
-      
+
       //the images array was populated with image object along with undefined ,to exclude undefined filter method was used
       setImages(images.filter(image => image !== undefined));
 

@@ -12,17 +12,17 @@ import Carousel from '../Carousel/Carousel';
 function ImageList(props) {
     //for the ref of the search field
     const searchRef = useRef("");
-    
+
     //destructuring
-    const {next,prev,index,setIndex,carousel,showCarousel,carouselToggler,setCarouselToggler,searchToggler,setSearchToggler,search,showSearch, update, setUpdate, setAddImageToggler, searchResults, setSearchResults, deleteImg, updateImg, album, outsideAlbum, addImgHandler, addImageToggler, addImageToDB, images, setLoading, getImages, loading } = props;
+    const { next, prev, index, setIndex, carousel, showCarousel, carouselToggler, setCarouselToggler, searchToggler, setSearchToggler, search, showSearch, update, setUpdate, setAddImageToggler, searchResults, setSearchResults, deleteImg, updateImg, album, outsideAlbum, addImgHandler, addImageToggler, addImageToDB, images, setLoading, getImages, loading } = props;
     //fetching all the images while the component mounts
     useEffect(() => {
-        
+
         setLoading(true);
         setTimeout(() => {
             //getting the images
-             getImages(album);
-            
+            getImages(album);
+
 
             setLoading(false)
         }, 1000)
@@ -40,20 +40,20 @@ function ImageList(props) {
     }
     //filter the searches from the images array 
     const performSearch = (search) => {
-        
-        return images.filter(image => image ?  image.title.toLowerCase().includes(search.toLowerCase()) : undefined)
+
+        return images.filter(image => image ? image.title.toLowerCase().includes(search.toLowerCase()) : undefined)
     }
-    
-    
+
+
     return (
-        <> 
+        <>
             {/*conditionally rendering ImageForm  */}
-         {
-            addImageToggler || update ? <div className='flex justify-center items-center'>
-                <ImageForm carouselToggler={carouselToggler} addImageToggler={addImageToggler} setAddImageToggler={setAddImageToggler} update={update} updateImg={updateImg} setUpdate={setUpdate} setSearchResults={setSearchResults} addImageToDB={addImageToDB} album={album} />
-            </div> : undefined
-        }
-        
+            {
+                addImageToggler || update ? <div className='flex justify-center items-center'>
+                    <ImageForm carouselToggler={carouselToggler} addImageToggler={addImageToggler} setAddImageToggler={setAddImageToggler} update={update} updateImg={updateImg} setUpdate={setUpdate} setSearchResults={setSearchResults} addImageToDB={addImageToDB} album={album} />
+                </div> : undefined
+            }
+
             <section className={carouselToggler ? " hidden blur-sm w-full flex flex-row justify-around items-center p-10 flex-wrap " : "w-full flex flex-row justify-around items-center p-10 flex-wrap"}>
                 <img
                     src={back}
@@ -87,42 +87,14 @@ function ImageList(props) {
                 : <section className={carouselToggler ? 'hidden' : 'w-full flex flex-wrap items-center justify-around'}>
                     {/* mapping images or searchResults array using the condition */}
                     {!searchToggler ? images.map((image, i) => {
-                            
+
                         return (
                             <div key={i}>
-                            <div>
-                            
-                            </div>
-                            
-                                {image !== undefined ? <div id='img-container' className={carouselToggler ? `blur-lg w-[200px] h-[200px] relative m-[100px] flex flex-wrap items-center justify-around ease-in-out duration-500 opacity-75 hover:scale-[1.5] hover:opacity-100` : `w-[200px] h-[200px] relative m-[100px] flex flex-wrap items-center justify-around ease-in-out duration-500 opacity-75 hover:scale-[1.5] hover:opacity-100`} >
-                                <img
-                                    src={edit}
-                                    className='icons opacity-0 w-[20px] h-[20px] absolute  top-0 right-[30px] rounded-full hover:scale-[1.5]'
-                                    onClick={() => setUpdate(image)}
-                                />
-                                <img
-                                    src={deleteIcon}
-                                    className='icons opacity-0 w-[20px] h-[20px] absolute  top-0 right-0 rounded-full hover:scale-[1.5]'
-                                    onClick={() => deleteImg(image)}
+                                <div>
 
-                                />
-                                <img src={image.url}
-                                    className=' shadow-2xl m-5'
-                                    onClick={() => showCarousel(image)}
-                                />
-                                <h1 className='text-2xl'>{image.title}</h1>
-                            </div>
- :undefined}
-                            
-                            </div>
-                            
-                        ) 
-                    }) :
-                    
-                        searchResults.map((image, i) => {
-                            return (
-                                <div key={i}>
-                                    {image !== undefined ? <div id='search-img-container' className='w-[200px] h-[200px] m-[100px] flex flex-wrap items-center justify-around ease-in-out duration-500 opacity-75 hover:scale-[1.5] hover:opacity-100 ' key={i}>
+                                </div>
+
+                                {image !== undefined ? <div id='img-container' className={carouselToggler ? `blur-lg w-[200px] h-[200px] relative m-[100px] flex flex-wrap items-center justify-around ease-in-out duration-500 opacity-75 hover:scale-[1.5] hover:opacity-100` : `w-[200px] h-[200px] relative m-[100px] flex flex-wrap items-center justify-around ease-in-out duration-500 opacity-75 hover:scale-[1.5] hover:opacity-100`} >
                                     <img
                                         src={edit}
                                         className='icons opacity-0 w-[20px] h-[20px] absolute  top-0 right-[30px] rounded-full hover:scale-[1.5]'
@@ -131,8 +103,8 @@ function ImageList(props) {
                                     <img
                                         src={deleteIcon}
                                         className='icons opacity-0 w-[20px] h-[20px] absolute  top-0 right-0 rounded-full hover:scale-[1.5]'
-
                                         onClick={() => deleteImg(image)}
+
                                     />
                                     <img src={image.url}
                                         className=' shadow-2xl m-5'
@@ -140,9 +112,37 @@ function ImageList(props) {
                                     />
                                     <h1 className='text-2xl'>{image.title}</h1>
                                 </div>
- : undefined}
+                                    : undefined}
+
+                            </div>
+
+                        )
+                    }) :
+
+                        searchResults.map((image, i) => {
+                            return (
+                                <div key={i}>
+                                    {image !== undefined ? <div id='search-img-container' className='w-[200px] h-[200px] m-[100px] flex flex-wrap items-center justify-around ease-in-out duration-500 opacity-75 hover:scale-[1.5] hover:opacity-100 ' key={i}>
+                                        <img
+                                            src={edit}
+                                            className='icons opacity-0 w-[20px] h-[20px] absolute  top-0 right-[30px] rounded-full hover:scale-[1.5]'
+                                            onClick={() => setUpdate(image)}
+                                        />
+                                        <img
+                                            src={deleteIcon}
+                                            className='icons opacity-0 w-[20px] h-[20px] absolute  top-0 right-0 rounded-full hover:scale-[1.5]'
+
+                                            onClick={() => deleteImg(image)}
+                                        />
+                                        <img src={image.url}
+                                            className=' shadow-2xl m-5'
+                                            onClick={() => showCarousel(image)}
+                                        />
+                                        <h1 className='text-2xl'>{image.title}</h1>
+                                    </div>
+                                        : undefined}
                                 </div>
-                                
+
                             )
                         })}
                 </section>}
